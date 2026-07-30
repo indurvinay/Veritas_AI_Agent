@@ -22,7 +22,7 @@ function getFrontendUrl() {
 
 // Redirect to Google consent screen
 router.get('/auth/google', (req, res) => {
-  const url = getAuthUrl();
+  const url = getAuthUrl(req);
   res.redirect(url);
 });
 
@@ -39,7 +39,7 @@ router.get('/oauth2callback', async (req, res) => {
     return res.status(400).json({ error: 'Missing authorization code' });
   }
   try {
-    await handleCallback(code);
+    await handleCallback(code, req);
     // Redirect to the frontend after successful auth
     res.redirect(getFrontendUrl());
   } catch (err) {

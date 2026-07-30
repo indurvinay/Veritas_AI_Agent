@@ -16,13 +16,27 @@ const SCOPES = [
   'https://www.googleapis.com/auth/userinfo.profile',
 ];
 
-function getRedirectUri() {
+export function getRedirectUri(req) {
+  // If explicitly set in env and is a valid external URL (or in dev mode)
   if (process.env.GOOGLE_REDIRECT_URI) {
-    return process.env.GOOGLE_REDIRECT_URI;
+    const isLocalhostEnv = process.env.GOOGLE_REDIRECT_URI.includes('localhost');
+    if (!isLocalhostEnv || process.env.NODE_ENV !== 'production') {
+      return process.env.GOOGLE_REDIRECT_URI;
+    }
   }
+
+  // Dynamically extract domain from Express request headers if available
+  if (req) {
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+    const host = req.get('host');
+    return `${protocol}://${host}/oauth2callback`;
+  }
+
+  // Fallback to Render environment variable if set
   if (process.env.RENDER_EXTERNAL_URL) {
     return `${process.env.RENDER_EXTERNAL_URL}/oauth2callback`;
   }
+
   return 'http://localhost:5000/oauth2callback';
 }
 
@@ -53,16 +67,22 @@ export function isDemo() {
   return demoActive;
 }
 
-export function getAuthUrl() {
+export function getAuthUrl(req) {
+  const redirectUri = getRedirectUri(req);
   return oauth2Client.generateAuthUrl({
     access_type: 'offline',
     prompt: 'consent',
     scope: SCOPES,
+    redirect_uri: redirectUri,
   });
 }
 
-export async function handleCallback(code) {
-  const { tokens } = await oauth2Client.getToken(code);
+export async function handleCallback(code, req) {
+  const redirectUri = getRedirectUri(req);
+  const { tokens } = await oauth2Client.getToken({
+    code,
+    redirect_uri: redirectUri,
+  });
   oauth2Client.setCredentials(tokens);
   await saveTokens(tokens);
   return tokens;
