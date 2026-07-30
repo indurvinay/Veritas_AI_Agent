@@ -36,7 +36,8 @@ router.get('/auth/demo', (req, res) => {
 router.get('/oauth2callback', async (req, res) => {
   const { code } = req.query;
   if (!code) {
-    return res.status(400).json({ error: 'Missing authorization code' });
+    // If accessed directly without an authorization code (e.g. page refresh or direct URL), gracefully redirect home
+    return res.redirect(getFrontendUrl());
   }
   try {
     await handleCallback(code, req);
@@ -44,7 +45,7 @@ router.get('/oauth2callback', async (req, res) => {
     res.redirect(getFrontendUrl());
   } catch (err) {
     console.error('OAuth callback error:', err.message);
-    res.status(500).json({ error: 'Authentication failed' });
+    res.redirect(getFrontendUrl());
   }
 });
 
