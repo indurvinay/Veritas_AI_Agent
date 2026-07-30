@@ -1,0 +1,275 @@
+@import "tailwindcss";
+
+@theme {
+  --color-space-black: #000008;
+  --color-jarvis-cyan: #00D4FF;
+  --color-jarvis-blue: #0066FF;
+  --color-jarvis-purple: #7B2FFF;
+  --color-alert-red: #FF3A3A;
+  --color-matrix-green: #00FF88;
+  --color-text-primary: #E0F7FF;
+  --color-text-secondary: #5ABFCC;
+  --color-glass-bg: rgba(0, 212, 255, 0.04);
+  --color-glass-border: rgba(0, 212, 255, 0.15);
+  --color-glass-hover: rgba(0, 212, 255, 0.08);
+
+  --font-heading: 'Orbitron', 'Rajdhani', monospace;
+  --font-body: 'Share Tech Mono', 'Space Mono', monospace;
+}
+
+/* ─── Base Styles ─── */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-space-black);
+  color: var(--color-text-primary);
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* ─── Glass Panel ─── */
+.glass-panel {
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+}
+
+.glass-panel-hover:hover {
+  background: var(--color-glass-hover);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
+/* ─── Scanline Overlay ─── */
+.scanline-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.03) 2px,
+    rgba(0, 212, 255, 0.03) 4px
+  );
+}
+
+/* ─── Glow Button ─── */
+.glow-btn {
+  position: relative;
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid var(--color-jarvis-cyan);
+  color: var(--color-jarvis-cyan);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.glow-btn:hover {
+  background: rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3), inset 0 0 15px rgba(0, 212, 255, 0.1);
+}
+
+.glow-btn:active {
+  transform: scale(0.97);
+}
+
+.glow-btn-primary {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(123, 47, 255, 0.15));
+  border-color: var(--color-jarvis-cyan);
+}
+
+.glow-btn-danger {
+  border-color: var(--color-alert-red);
+  color: var(--color-alert-red);
+}
+
+.glow-btn-danger:hover {
+  background: rgba(255, 58, 58, 0.1);
+  box-shadow: 0 0 15px rgba(255, 58, 58, 0.3);
+}
+
+/* ─── Glow Pulse Keyframes ─── */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(0, 212, 255, 0.2); }
+  50% { box-shadow: 0 0 12px rgba(0, 212, 255, 0.5); }
+}
+
+@keyframes glow-pulse-green {
+  0%, 100% { box-shadow: 0 0 3px rgba(0, 255, 136, 0.3); }
+  50% { box-shadow: 0 0 10px rgba(0, 255, 136, 0.7); }
+}
+
+/* ─── Skeleton Shimmer ─── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 212, 255, 0.05) 25%,
+    rgba(0, 212, 255, 0.1) 50%,
+    rgba(0, 212, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* ─── Pulse Dot ─── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ─── Notification Flash ─── */
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.flash-notification {
+  animation: flash 0.5s ease-in-out 3;
+}
+
+/* ─── Voice Bars ─── */
+@keyframes voice-bar {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+.voice-bar {
+  width: 3px;
+  height: 20px;
+  background: linear-gradient(to top, var(--color-jarvis-cyan), var(--color-jarvis-purple));
+  border-radius: 2px;
+  transform-origin: bottom;
+}
+
+.voice-bar.active {
+  animation: voice-bar 0.5s ease-in-out infinite;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.5);
+}
+
+/* ─── Cursor Glow ─── */
+.cursor-glow {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: left 0.1s ease, top 0.1s ease;
+}
+
+/* ─── Tag Badges ─── */
+.tag-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: var(--font-heading);
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tag-spam { background: rgba(255, 58, 58, 0.15); color: #FF3A3A; border: 1px solid rgba(255, 58, 58, 0.3); }
+.tag-promo { background: rgba(255, 215, 0, 0.15); color: #FFD700; border: 1px solid rgba(255, 215, 0, 0.3); }
+.tag-real { background: rgba(0, 255, 136, 0.15); color: #00FF88; border: 1px solid rgba(0, 255, 136, 0.3); }
+.tag-job { background: rgba(123, 47, 255, 0.15); color: #B080FF; border: 1px solid rgba(123, 47, 255, 0.3); }
+.tag-phishing { background: rgba(255, 58, 58, 0.2); color: #FF6B6B; border: 1px solid rgba(255, 58, 58, 0.4); }
+
+/* ─── Input Styles ─── */
+.jarvis-input {
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.jarvis-input:focus {
+  border-color: var(--color-jarvis-cyan);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.15);
+}
+
+.jarvis-input::placeholder {
+  color: rgba(90, 191, 204, 0.5);
+}
+
+/* ─── Typing Indicator ─── */
+@keyframes typing-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-jarvis-cyan);
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.typing-dot:nth-child(1) { animation: typing-dot 1.4s ease-in-out infinite; }
+.typing-dot:nth-child(2) { animation: typing-dot 1.4s ease-in-out 0.2s infinite; }
+.typing-dot:nth-child(3) { animation: typing-dot 1.4s ease-in-out 0.4s infinite; }
+
+/* ─── Drag Zone ─── */
+@keyframes dash-rotate {
+  0% { background-position: 0 0; }
+  100% { background-position: 50px 50px; }
+}
+
+.drag-active {
+  border: 2px dashed var(--color-jarvis-cyan) !important;
+  background: rgba(0, 212, 255, 0.05) !important;
+  animation: glow-pulse 1s infinite;
+}

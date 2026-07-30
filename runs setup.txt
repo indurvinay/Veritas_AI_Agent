@@ -1,0 +1,37 @@
+To run Veritas AI locally on your machine, follow these simple steps:
+
+📋 Prerequisites
+Ensure you have Node.js (version 18 or newer) installed on your system.
+
+Step 1: Set Up Your API Keys & Config
+Make sure you have a .env file inside your backend/ folder containing your keys. It should look like this:
+
+env
+PORT=5000
+GEMINI_API_KEY=your_gemini_api_key
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:5000/oauth2callback
+# Google Sheets Logging Config
+GOOGLE_SHEET_ID=your_google_spreadsheet_id
+GOOGLE_SHEET_NAME=your_sheet_tab_name (e.g., Sheet1)
+# Session Secret Key
+SESSION_SECRET=your_random_string_secret
+Step 2: Install Dependencies
+Open your terminal in the root directory of the project (Google_personal_assistant) and run:
+
+bash
+npm run install:all
+(This single command automatically installs all required dependencies for the root orchestrator, the Express backend, and the React frontend in one go).
+
+Step 3: Run the Development Servers
+In the same root terminal, run:
+
+bash
+npm run dev
+This will run both servers concurrently:
+
+React Frontend: Runs on http://localhost:5173 (handled by Vite).
+Express Backend: Runs on http://localhost:5000.
+Open http://localhost:5173 in your web browser and click Connect with Google to begin using Veritas AI locally!

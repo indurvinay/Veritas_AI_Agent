@@ -1,0 +1,16 @@
+{
+  "name": "veritas-ai",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm run dev",
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install",
+    "install:all": "npm i --include=dev && cd backend && npm i --include=dev && cd ../frontend && npm i --include=dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && node server.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
